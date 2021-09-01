@@ -15,16 +15,18 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::prefix('posts')->group(function (){
-    Route::get('', [PostController::class, 'index']);
-    Route::post('/create', [PostController::class, 'create']);
-    Route::post('/{id}/update', [PostController::class, 'update']);
-    Route::post('/{id}/delete', [PostController::class, 'delete']);
+Route::group(['middleware'=>'api'],function (){
+    Route::prefix('posts')->group(function (){
+        Route::get('', [PostController::class, 'index']);
+        Route::post('/create', [PostController::class, 'create']);
+        Route::put('/{id}/update', [PostController::class, 'update']);
+        Route::delete('/{id}/delete', [PostController::class, 'delete']);
+    });
 });
 
 
 Route::post('/register', [AuthController::class, 'register']);
-Route::get('posts', [PostController::class, 'index']);
+
 
 
 
