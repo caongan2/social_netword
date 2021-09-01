@@ -34,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
             PostService::class,
             PostServiceImpl::class
         );
+
     }
 
     /**
