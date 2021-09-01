@@ -1237,8 +1237,22 @@
                 "issues": "https://github.com/lcobucci/jwt/issues",
                 "source": "https://github.com/lcobucci/jwt/tree/3.2"
             },
-            "time": "2018-11-11T12:22:26+00:00"
+            "time": "2018-11-11T12:22:26+00:00",
+            "source": "https://github.com/lcobucci/jwt/tree/3.3.3"
         },
+        "funding",
+        [
+            {
+                "url": "https://github.com/lcobucci",
+                "type": "github"
+            },
+            {
+                "url": "https://www.patreon.com/lcobucci",
+                "type": "patreon"
+            }
+        ],
+        "time",
+        "2020-08-20T13:22:28+00:00",
         {
             "name": "league/commonmark",
             "version": "2.0.2",
