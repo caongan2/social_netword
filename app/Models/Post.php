@@ -12,4 +12,8 @@ class Post extends Model
     protected $fillable = [
         'content',
         'is_public'];
+
+    function user(){
+        return $this->belongsTo(User::class,"user_id");
+    }
 }
