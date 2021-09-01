@@ -13,7 +13,7 @@ class AuthController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => [ 'register']]);
-    }       
+    }
 
 
     public function register(Request $request)
@@ -26,7 +26,6 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
             return response()->json([
                 $validator->errors()->toJson(),
                 'message' => 'Email đã tồn tại!',
