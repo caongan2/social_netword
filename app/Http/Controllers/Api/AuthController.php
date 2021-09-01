@@ -7,14 +7,27 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+
+
+
+
 class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => [ 'register']]);
+
+        $this->middleware('auth:api', ['except' => ['login','register']]);
     }
 
-
+    protected function createNewToken($token)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60,
+            'user' => auth()->user()
+        ]);
+    }
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -41,6 +54,27 @@ class AuthController extends Controller
             'message' => 'Bạn đã đăng ký thành công!',
             'user' => $user
         ], 201);
+    }
+
+    public function login(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|string|min:6|max:20',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        if (!$token = auth()->attempt($validator->validated())) {
+            return response()->json([
+                'message' => 'Email hoặc mật khẩu không chính xác.',
+                'error' => 'Unauthorized'
+            ]);
+        }
+
+        return $this->createNewToken($token);
     }
 
 }

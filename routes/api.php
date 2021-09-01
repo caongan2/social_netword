@@ -33,5 +33,3 @@ Route::post('/register', [AuthController::class, 'register']);
 
 
 
-
-
