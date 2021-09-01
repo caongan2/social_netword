@@ -30,6 +30,7 @@ class PostServiceImpl implements PostService
 
     public function update($request,$id)
     {
+
         $post = $this->postRepository->findById($id);
        return $this->postRepository->update($request,$post);
     }
