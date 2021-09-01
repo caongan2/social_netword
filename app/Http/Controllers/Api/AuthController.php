@@ -71,7 +71,7 @@ class AuthController extends Controller
             return response()->json([
                 'message' => 'Email hoặc mật khẩu không chính xác.',
                 'error' => 'Unauthorized'
-            ]);
+            ],422);
         }
 
         return $this->createNewToken($token);

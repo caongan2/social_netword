@@ -21,13 +21,11 @@ Route::group(['middleware' => 'api'], function () {
     Route::prefix('auth')->group(function (){
         Route::post('/register', [AuthController::class, 'register']);
         Route::post('/login',[AuthController::class,'login']);
-        Route::get('posts', [PostController::class, 'index']);
-        Route::post('edit/{id}', [PostController::class, 'update']);
 
     });
 
     Route::prefix('posts')->group(function (){
-        Route::get('getAll', [PostController::class, 'index']);
+        Route::get('/getAll', [PostController::class, 'index']);
         Route::post('/create', [PostController::class, 'create']);
         Route::post('/{id}/update', [PostController::class, 'update']);
         Route::post('/{id}/delete', [PostController::class, 'delete']);
