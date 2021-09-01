@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('posts', [PostController::class, 'index']);
+Route::post('edit/{id}', [PostController::class, 'update']);
 
 
 

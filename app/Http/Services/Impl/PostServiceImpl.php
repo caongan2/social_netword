@@ -28,6 +28,7 @@ class PostServiceImpl implements PostService
     public function update($request, $id)
     {
         // TODO: Implement update() method.
+
     }
 
     public function create($request)
