@@ -25,3 +25,7 @@ Route::group(['middleware'=>'api'],function () {
 Route::prefix('users')->group(function (){
         Route::put('/{id}/update-profile',[UserController::class,'update']);
 });
+
+Route::post('/register', [AuthController::class, 'register']);
+Route::get('posts', [PostController::class, 'index']);
+
