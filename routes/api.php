@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +25,7 @@ Route::prefix('posts')->group(function (){
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::get('posts', [PostController::class, 'index']);
+Route::post('edit/{id}', [PostController::class, 'update']);
 
 
 

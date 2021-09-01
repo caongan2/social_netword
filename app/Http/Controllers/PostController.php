@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
+
+
+    /**
+     * @var PostService
+     */
     public $postService;
 
     public function __construct(PostService $service)
