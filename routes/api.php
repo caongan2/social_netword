@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +17,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware'=>'api'],function () {
+    Route::get('/user-profile',[AuthController::class,'userProfile']);
+    Route::get('/user-list',[UserController::class,'getAll']);
+});
+
+Route::prefix('users')->group(function (){
+        Route::put('/{id}/update-profile',[UserController::class,'update']);
 });
