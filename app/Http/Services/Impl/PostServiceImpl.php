@@ -6,6 +6,8 @@ namespace App\Http\Services\Impl;
 
 use App\Http\Repositories\PostRepository;
 use App\Http\Services\PostService;
+use App\Models\Post;
+use App\Models\User;
 
 class PostServiceImpl implements PostService
 {
@@ -22,16 +24,20 @@ class PostServiceImpl implements PostService
 
     public function findById($id)
     {
-        // TODO: Implement findById() method.
+        $post = $this->postRepository->findById($id);
+        return $this->postRepository->destroy($post);
     }
 
-    public function update($request, $id)
+    public function update($request,$id)
     {
-        // TODO: Implement update() method.
+
+        $post = $this->postRepository->findById($id);
+       return $this->postRepository->update($request,$post);
     }
 
     public function create($request)
     {
-        // TODO: Implement create() method.
+        $post = $this->postRepository->create($request);
+        return $post;
     }
 }

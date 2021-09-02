@@ -39,6 +39,7 @@ class AppServiceProvider extends ServiceProvider
             PostService::class,
             PostServiceImpl::class
         );
+
         $this->app->singleton(
             UserService::class,
             UserServiceImpl::class
