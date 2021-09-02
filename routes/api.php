@@ -25,10 +25,12 @@ Route::group(['middleware' => 'api'], function () {
     });
 
     Route::prefix('posts')->group(function (){
+        Route::get('/{id}', [PostController::class, 'findById']);
         Route::get('/getAll', [PostController::class, 'index']);
         Route::post('/create', [PostController::class, 'create']);
-        Route::post('/{id}/update', [PostController::class, 'update']);
-        Route::post('/{id}/delete', [PostController::class, 'delete']);
+        Route::put('/{id}/update', [PostController::class, 'update']);
+        Route::delete('/{id}/delete', [PostController::class, 'delete']);
+
     });
 
 
