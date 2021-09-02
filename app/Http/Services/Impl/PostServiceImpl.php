@@ -24,8 +24,8 @@ class PostServiceImpl implements PostService
 
     public function findById($id)
     {
-        $post = $this->postRepository->findById($id);
-        return $this->postRepository->destroy($post);
+       return $this->postRepository->findById($id);
+
     }
 
     public function update($request,$id)
