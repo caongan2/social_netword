@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+
 use App\Http\Services\PostService;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -69,4 +70,5 @@ class PostController extends Controller
         $post = $this->postService->findById($id);
         return response()->json($post);
     }
+
 }
