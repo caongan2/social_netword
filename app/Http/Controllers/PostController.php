@@ -37,7 +37,7 @@ class PostController extends Controller
             'is_public'=>'required'
         ]);
         if ($validator->fails()) {
-            return response()->json($validator->errors());
+            return response()->json($validator->errors(),422);
         }
         $post = $this->postService->create($request->all());
         $data = [
@@ -55,7 +55,7 @@ class PostController extends Controller
             'is_public'=>'required'
         ]);
         if ($validator->fails()) {
-            return response()->json($validator->errors());
+            return response()->json($validator->errors(),422);
         }
         $post = $this->postService->update($request->all(),$id);
         $data = [
@@ -73,8 +73,9 @@ class PostController extends Controller
 
     public function getPostByUser($id)
     {
-        $post = $this->postService->findById($id);
+        $post = $this->postService->findById($id)->delete();
         return response()->json($post);
     }
+
 
 }
