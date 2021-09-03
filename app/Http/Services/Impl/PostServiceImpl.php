@@ -5,16 +5,21 @@ namespace App\Http\Services\Impl;
 
 
 use App\Http\Repositories\PostRepository;
+use App\Http\Repositories\UserRepository;
 use App\Http\Services\PostService;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class PostServiceImpl implements PostService
 {
     public $postRepository;
-    public function __construct(PostRepository $postRepository)
+    public $userRepository;
+
+    public function __construct(PostRepository $postRepository, UserRepository $userRepository)
     {
         $this->postRepository = $postRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function getAll()
@@ -22,22 +27,31 @@ class PostServiceImpl implements PostService
         return $this->postRepository->getAll();
     }
 
-    public function findById($id)
+    public function destroy($id)
     {
-       return $this->postRepository->findById($id);
+        return Post::destroy($id);
 
     }
 
     public function update($request,$id)
     {
-
-        $post = $this->postRepository->findById($id);
+        $post = Post::find($id);
        return $this->postRepository->update($request,$post);
     }
 
     public function create($request)
     {
-        $post = $this->postRepository->create($request);
+        return $this->postRepository->create($request);
+
+    }
+
+    public function getPostByUser($id)
+    {
+
+        $user = $this->userRepository->findById($id);
+        $post = Post::where('user_id',$user->id)->get();
         return $post;
+
+
     }
 }

@@ -4,7 +4,6 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\PostController;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -30,12 +29,12 @@ Route::group(['middleware' => 'api'], function () {
     });
 
     Route::prefix('posts')->group(function (){
-        Route::get('/{id}', [PostController::class, 'findById']);
+        Route::get('/{id}/getPostByUser', [PostController::class, 'getPostByUser']);
         Route::get('/getAll', [PostController::class, 'index']);
         Route::post('/create', [PostController::class, 'create']);
         Route::put('/{id}/update', [PostController::class, 'update']);
         Route::delete('/{id}/delete', [PostController::class, 'delete']);
-
+        Route::get('/{id}/showPost', [PostController::class, 'showPost']);
     });
 
 
