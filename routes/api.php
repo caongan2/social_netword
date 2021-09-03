@@ -20,12 +20,23 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+
+Route::group(['middleware'=>'api'],function () {
+    Route::get('/user-profile',[AuthController::class,'userProfile']);
+    Route::get('/user-list',[UserController::class,'getAll']);
+});
+
+Route::get('posts', [PostController::class, 'index']);
 Route::group(['middleware' => 'api'], function () {
 
     Route::prefix('auth')->group(function (){
         Route::post('/register', [AuthController::class, 'register']);
         Route::post('/login',[AuthController::class,'login']);
         Route::post('/logout', [AuthController::class, 'logout']);
+        Route::prefix('users')->group(function (){
+            Route::put('/{id}/update-profile',[UserController::class,'update']);
+            Route::get('/{id}/detail',[UserController::class,'detail']);
+        });
     });
 
     Route::prefix('posts')->group(function (){
@@ -36,6 +47,5 @@ Route::group(['middleware' => 'api'], function () {
         Route::delete('/{id}/delete', [PostController::class, 'delete']);
         Route::get('/{id}/showPost', [PostController::class, 'showPost']);
     });
-
 
 });
