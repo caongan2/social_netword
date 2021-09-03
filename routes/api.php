@@ -26,8 +26,6 @@ Route::group(['middleware'=>'api'],function () {
     Route::get('/user-list',[UserController::class,'getAll']);
 });
 
-
-
 Route::get('posts', [PostController::class, 'index']);
 Route::group(['middleware' => 'api'], function () {
 
@@ -42,10 +40,12 @@ Route::group(['middleware' => 'api'], function () {
     });
 
     Route::prefix('posts')->group(function (){
+        Route::get('/{id}/getPostByUser', [PostController::class, 'getPostByUser']);
         Route::get('/getAll', [PostController::class, 'index']);
         Route::post('/create', [PostController::class, 'create']);
-        Route::post('/{id}/update', [PostController::class, 'update']);
-        Route::post('/{id}/delete', [PostController::class, 'delete']);
+        Route::put('/{id}/update', [PostController::class, 'update']);
+        Route::delete('/{id}/delete', [PostController::class, 'delete']);
+        Route::get('/{id}/showPost', [PostController::class, 'showPost']);
     });
 
 });

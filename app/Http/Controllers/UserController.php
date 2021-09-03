@@ -30,14 +30,14 @@ class UserController extends Controller
 
     public function update(UserRequest $request, $id)
     {
-//        return $this->userService->update($request->all(), $id);
-        $user = $this->userService->update($request->all(),$id);
-        $messages = $request->messages();
-        $data = [
-            "message" => "update user success",
-            "data" => $user,
-        ];
-        return response()->json($data);
+//        $user = $this->userService->update($request->all(),$id);
+//        $data = [
+//            "message" => "update user success",
+//            "data" => $user,
+//        ];
+//        return response()->json($data);
+        $dataUser = $this->userService->update($request->all(),$id);
+        return response()->json($dataUser['users'],$dataUser['statusCode']);
     }
 
     public function detail($id)
