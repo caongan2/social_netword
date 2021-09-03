@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Services\PostService;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -26,7 +27,11 @@ class PostController extends Controller
 
     public function index()
     {
-       return $this->postService->getAll();
+        $posts = DB::table('posts')
+            ->join('users', 'users.id', '=', 'posts.user_id')
+            ->select('users.name', 'posts.content', 'posts.id', 'users.id', 'posts.is_public')
+            ->get();
+        return response()->json($posts);
     }
 
     public function create(Request $request)
