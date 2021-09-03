@@ -67,6 +67,12 @@ class PostController extends Controller
 
     public function delete($id)
     {
+        $post = $this->postService->destroy($id);
+        return response()->json($post);
+    }
+
+    public function getPostByUser($id)
+    {
         $post = $this->postService->findById($id);
         return response()->json($post);
     }

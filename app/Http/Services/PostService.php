@@ -10,4 +10,5 @@ interface PostService
     public function findById($id);
     public function update($request, $id);
     public function create($request);
+    public function destroy($id);
 }

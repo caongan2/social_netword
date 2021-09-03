@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PostFactory extends Factory
@@ -21,7 +22,10 @@ class PostFactory extends Factory
      */
     public function definition()
     {
+        $user = User::pluck('id')->toArray();
+
         return [
+            'user_id' => $this->faker->randomElement($user),
             'content' => $this->faker->text(),
             'is_public' => $this->faker->boolean()
         ];
