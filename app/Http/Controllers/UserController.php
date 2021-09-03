@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Http\Services\UserService;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -27,8 +28,21 @@ class UserController extends Controller
         return response()->json($dataUser['users'], $dataUser['statusCode']);
     }
 
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
-        return $this->userService->update($request->all(), $id);
+//        return $this->userService->update($request->all(), $id);
+        $user = $this->userService->update($request->all(),$id);
+        $messages = $request->messages();
+        $data = [
+            "message" => "update user success",
+            "data" => $user,
+        ];
+        return response()->json($data);
+    }
+
+    public function detail($id)
+    {
+        $user = User::find($id);
+        return response()->json($user);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Services\Impl;
 
 
 use App\Http\Repositories\UserRepository;
+use App\Http\Requests\UserRequest;
 use App\Http\Services\UserService;
 
 class UserServiceImpl implements UserService
@@ -36,16 +37,16 @@ class UserServiceImpl implements UserService
         return $data;
     }
 
-    public function update($request, $id)
+    public function update( $request, $id)
     {
         $oldUser = $this->userRepo->findById($id);
-
         if (!$oldUser) {
             $newUser = null;
             $statusCode = 404;
         } else {
             $newUser = $this->userRepo->update($request, $oldUser);
             $statusCode = 200;
+
         }
 
         $data = [

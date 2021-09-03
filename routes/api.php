@@ -4,7 +4,6 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\PostController;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,9 +26,7 @@ Route::group(['middleware'=>'api'],function () {
     Route::get('/user-list',[UserController::class,'getAll']);
 });
 
-Route::prefix('users')->group(function (){
-        Route::put('/{id}/update-profile',[UserController::class,'update']);
-});
+
 
 Route::get('posts', [PostController::class, 'index']);
 Route::group(['middleware' => 'api'], function () {
@@ -38,6 +35,10 @@ Route::group(['middleware' => 'api'], function () {
         Route::post('/register', [AuthController::class, 'register']);
         Route::post('/login',[AuthController::class,'login']);
         Route::post('/logout', [AuthController::class, 'logout']);
+        Route::prefix('users')->group(function (){
+            Route::put('/{id}/update-profile',[UserController::class,'update']);
+            Route::get('/{id}/detail',[UserController::class,'detail']);
+        });
     });
 
     Route::prefix('posts')->group(function (){
@@ -46,6 +47,5 @@ Route::group(['middleware' => 'api'], function () {
         Route::post('/{id}/update', [PostController::class, 'update']);
         Route::post('/{id}/delete', [PostController::class, 'delete']);
     });
-
 
 });
