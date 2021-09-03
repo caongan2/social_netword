@@ -29,40 +29,29 @@ class PostServiceImpl implements PostService
 
     public function destroy($id)
     {
-        $post = $this->postRepository->findById($id);
-        $user = $post['user_id'];
-        if ( Auth::id() == $user){
-            return $this->postRepository->destroy($post);
-        }else{
-            $message = "Không được phép xóa bài viết";
-            return $message;
-        }
+        return Post::destroy($id);
 
     }
 
     public function update($request,$id)
     {
-
-        $post = $this->postRepository->findById($id);
+        $post = Post::find($id);
        return $this->postRepository->update($request,$post);
     }
 
     public function create($request)
     {
-        $post = $this->postRepository->create($request);
-        return $post;
+        return $this->postRepository->create($request);
+
     }
 
-    public function findById($id)
+    public function getPostByUser($id)
     {
-        $post = $this->postRepository->findById($id);
-        $user = $post['user_id'];
-        if ( Auth::id() == $user){
-            return $post;
-        }else{
-            $message = "Không được phép chỉnh sửa bài viết";
-            return $message;
-        }
+
+        $user = $this->userRepository->findById($id);
+        $post = Post::where('user_id',$user->id)->get();
+        return $post;
+
 
     }
 }
