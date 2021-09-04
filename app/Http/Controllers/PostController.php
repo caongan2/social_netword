@@ -30,6 +30,7 @@ class PostController extends Controller
         $posts = DB::table('posts')
             ->join('users', 'users.id', '=', 'posts.user_id')
             ->select('users.name', 'posts.content', 'posts.id', 'users.id', 'posts.is_public')
+            ->orderByDesc('posts.id')
             ->get();
         return response()->json($posts);
     }
