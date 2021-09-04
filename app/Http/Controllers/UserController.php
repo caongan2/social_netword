@@ -40,9 +40,4 @@ class UserController extends Controller
         return response()->json($dataUser['users'],$dataUser['statusCode']);
     }
 
-    public function detail($id)
-    {
-        $user = User::find($id);
-        return response()->json($user);
-    }
 }

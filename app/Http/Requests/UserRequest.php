@@ -24,9 +24,8 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'between: 2,50 | regex: /^[A-Za-z]+$/',
+            'name' => 'between: 2,50 | regex: /^[A-Z a-z]+$/',
             'phone' => 'regex: /^0[1-9][0-9]{8}$/',
-            'birth_date' => 'date| before:today',
             'address' => 'between: 2,50',
             'interest' => 'between: 2,50',
         ];
@@ -37,7 +36,6 @@ class UserRequest extends FormRequest
         $messages = [
             'name.between' => 'Field name must between 2 and 50 characters',
             'phone.regex' => 'It is not a phone format',
-            'birth_date.before' => 'You can not choose the day after today!',
             'address.between' => 'Field address must between 2 and 50 characters',
             'interest' => 'Field interest must between 2 and 50 characters'
         ];

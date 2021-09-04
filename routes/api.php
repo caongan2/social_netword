@@ -33,9 +33,9 @@ Route::group(['middleware' => 'api'], function () {
         Route::post('/register', [AuthController::class, 'register']);
         Route::post('/login',[AuthController::class,'login']);
         Route::post('/logout', [AuthController::class, 'logout']);
+        Route::get('/user-profile', [AuthController::class, 'userProfile']);
         Route::prefix('users')->group(function (){
-            Route::put('/{id}/update-profile',[UserController::class,'update']);
-            Route::get('/{id}/detail',[UserController::class,'detail']);
+            Route::put('{id}/update-profile',[UserController::class,'update']);
         });
     });
 
@@ -47,5 +47,5 @@ Route::group(['middleware' => 'api'], function () {
         Route::delete('/{id}/delete', [PostController::class, 'delete']);
         Route::get('/{id}/showPost', [PostController::class, 'showPost']);
     });
-
 });
+
