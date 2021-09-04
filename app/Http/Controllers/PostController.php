@@ -28,8 +28,10 @@ class PostController extends Controller
     public function index()
     {
         $posts = DB::table('posts')
-            ->join('users', 'users.id', '=', 'posts.user_id')
-            ->select('users.name', 'posts.content', 'posts.id', 'users.id', 'posts.is_public', 'posts.created_at')
+            ->join('users', 'users.id', '=', 'posts.userId')
+            ->select('users.name', 'posts.content', 'posts.id', 'posts.is_public','posts.created_at')
+            ->where('is_public', 1)
+            ->orderByDesc('posts.id')
             ->get();
         return response()->json($posts);
     }
@@ -37,7 +39,7 @@ class PostController extends Controller
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'user_id'=>'required',
+            'userId'=>'required',
             'content'=>'required',
             'is_public'=>'required'
         ]);
