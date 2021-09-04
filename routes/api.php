@@ -21,12 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::group(['middleware'=>'api'],function () {
-    Route::get('/user-profile',[AuthController::class,'userProfile']);
-    Route::get('/user-list',[UserController::class,'getAll']);
-});
 
-Route::get('posts', [PostController::class, 'index']);
 Route::group(['middleware' => 'api'], function () {
 
     Route::prefix('auth')->group(function (){
@@ -38,6 +33,8 @@ Route::group(['middleware' => 'api'], function () {
             Route::get('/{id}/detail',[UserController::class,'detail']);
         });
     });
+    Route::get('/user-profile',[AuthController::class,'userProfile']);
+    Route::get('/user-list',[UserController::class,'getAll']);
 
     Route::prefix('posts')->group(function (){
         Route::get('/{id}/getPostByUser', [PostController::class, 'getPostByUser']);
