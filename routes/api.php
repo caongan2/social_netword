@@ -26,7 +26,6 @@ Route::group(['middleware'=>'api'],function () {
     Route::get('/user-list',[UserController::class,'getAll']);
 });
 
-Route::get('posts', [PostController::class, 'index']);
 Route::group(['middleware' => 'api'], function () {
 
     Route::prefix('auth')->group(function (){
@@ -46,6 +45,9 @@ Route::group(['middleware' => 'api'], function () {
         Route::put('/{id}/update', [PostController::class, 'update']);
         Route::delete('/{id}/delete', [PostController::class, 'delete']);
         Route::get('/{id}/showPost', [PostController::class, 'showPost']);
+        Route::get('/{id}/likePost', [PostController::class, 'likePost']);
+        Route::delete('/{id}/disLike', [PostController::class, 'disLike']);
+        Route::get('/{id}/countLike', [PostController::class, 'countLikeByPost']);
     });
 });
 

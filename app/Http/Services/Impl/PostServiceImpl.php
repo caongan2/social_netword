@@ -49,7 +49,7 @@ class PostServiceImpl implements PostService
     {
 
         $user = $this->userRepository->findById($id);
-        $post = Post::where('user_id',$user->id)->get();
+        $post = Post::where('userId',$user->id)->get();
         return $post;
 
 
