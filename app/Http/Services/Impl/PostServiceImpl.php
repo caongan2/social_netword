@@ -47,11 +47,8 @@ class PostServiceImpl implements PostService
 
     public function getPostByUser($id)
     {
-
         $user = $this->userRepository->findById($id);
-        $post = Post::where('user_id',$user->id)->get();
+        $post = Post::where('userId',$user->id)->get();
         return $post;
-
-
     }
 }

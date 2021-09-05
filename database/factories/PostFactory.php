@@ -25,7 +25,7 @@ class PostFactory extends Factory
         $user = User::pluck('id')->toArray();
 
         return [
-            'user_id' => $this->faker->randomElement($user),
+            'userId' => $this->faker->randomElement($user),
             'content' => $this->faker->text(),
             'is_public' => $this->faker->boolean()
         ];
