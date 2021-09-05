@@ -33,6 +33,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = DB::table('posts')
+        
             ->join('users', 'users.id', '=', 'posts.userId')
             ->select('users.name', 'posts.content', 'posts.id', 'posts.is_public','posts.created_at')
             ->orderByDesc('posts.id')

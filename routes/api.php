@@ -32,7 +32,9 @@ Route::group(['middleware' => 'api'], function () {
         Route::post('/register', [AuthController::class, 'register']);
         Route::post('/login',[AuthController::class,'login']);
         Route::post('/logout', [AuthController::class, 'logout']);
-        Route::get('/user-profile', [AuthController::class, 'userProfile']);
+        Route::post('/change-password', [AuthController::class, 'changePassword'])->name('change.password');
+
+        // Route::get('/user-profile', [AuthController::class, 'userProfile']);
         Route::prefix('users')->group(function (){
             Route::put('{id}/update-profile',[UserController::class,'update']);
         });
