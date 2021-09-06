@@ -5,8 +5,13 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Services\PostService;
+use App\Models\Comment;
+use App\Models\Like;
 use App\Models\Post;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -89,5 +94,28 @@ class PostController extends Controller
         $post = Post::find($id);
         return response()->json($post);
     }
+
+    public function likePost($id)
+    {
+            $likePost = new Like();
+            $likePost->user_id = Auth::id();
+            $likePost->post_id = $id;
+            $likePost->save();
+            return response()->json($likePost);
+
+    }
+
+    function disLike($id){
+        $likePost = Like::Where([['post_id',$id],['user_id',Auth::id()]]);
+        $likePost->delete();
+        return response()->json(['Delete successfully']);
+    }
+
+    public function countLikeByPost($id)
+    {
+        $like = Like::where('post_id',$id)->get();
+        return response()->json($like);
+    }
+
 
 }
