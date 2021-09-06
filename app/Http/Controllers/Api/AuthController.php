@@ -74,6 +74,28 @@ class AuthController extends Controller
         return response()->json(['message' => 'Logout successfully']);
     }
 
+    public function changePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'old_password' => 'required|min:6|max:20',
+            'new_password' => 'required|confirmed|min:6|max:20',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+
+        $userId = auth()->user()->id;
+
+        $user = User::where('id', $userId)->update(
+            ['password' => bcrypt($request->new_password)]
+        );
+
+        return response()->json([
+            'message' => 'Change password success',
+            'user' => $user
+        ], 201);
+    }
     public function refresh()
     {
         return $this->createNewToken(auth()->refresh());
