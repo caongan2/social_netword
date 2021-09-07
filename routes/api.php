@@ -55,6 +55,7 @@ Route::group(['middleware' => 'api'], function () {
         Route::get('commentByPost/{id}', [CommentController::class, 'index']);
         Route::delete('delete/{id}', [CommentController::class, 'destroy']);
         Route::post('create', [CommentController::class, 'comment']);
+        Route::post('update/{id}', [CommentController::class, 'update']);
     });
 });
 

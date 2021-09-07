@@ -70,7 +70,12 @@ class CommentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $comment = $this->commentService->update($request->all(), $id);
+        $data = [
+            'message' => 'Update comment successfully',
+            'data' => $comment
+        ];
+        return response()->json($data);
     }
 
     /**
