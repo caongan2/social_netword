@@ -43,6 +43,7 @@ class CommentServiceImpl implements CommentService
             ->join('users', 'users.id', '=', 'comments.user_id')
             ->select('users.name', 'comments.content', 'comments.id')
             ->where('post_id', $id)
+            ->orderByDesc('id')
             ->get();
         return $comments;
     }
@@ -54,7 +55,8 @@ class CommentServiceImpl implements CommentService
 
     public function update($request, $id)
     {
-        // TODO: Implement update() method.
+        $comment = Comment::find($id);
+        return $this->commentRepository->update($request, $comment);
     }
 
 }
