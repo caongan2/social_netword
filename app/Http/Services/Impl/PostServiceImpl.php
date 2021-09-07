@@ -42,7 +42,6 @@ class PostServiceImpl implements PostService
     public function create($request)
     {
         return $this->postRepository->create($request);
-
     }
 
     public function getPostByUser($id)
