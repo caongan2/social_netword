@@ -34,11 +34,13 @@ class PostController extends Controller
     {
         $posts = DB::table('posts')
             ->join('users', 'users.id', '=', 'posts.userId')
-            ->select('users.name', 'posts.content', 'posts.id', 'posts.is_public','posts.created_at')
+            ->select('users.name', 'posts.content', 'posts.id','posts.is_public','posts.created_at')
             ->where('is_public',true)
             ->orderByDesc('posts.id')
             ->get();
         return response()->json($posts);
+//        $posts = Post::with('user','likes','comments')->where('is_public',true)->orderByDesc('id')->get();
+//        return response()->json($posts);
     }
 
     public function create(Request $request)
@@ -97,20 +99,20 @@ class PostController extends Controller
 
     public function likePost($id)
     {
-            $likePost = new Like();
-            $likePost->user_id = Auth::id();
-            $likePost->post_id = $id;
-            $likePost->save();
-            return response()->json($likePost);
+        $likePost = Like::where('post_id',$id)->where('user_id',Auth::id())->first();
+        if ($likePost){
+            $likePost->delete();
+        }else{
+            $like = new Like();
+            $like->user_id = Auth::id();
+            $like->post_id = $id;
+            $like->is_status = true;
+            $like->save();
 
+        }
+        $countLike = Like::where('post_id',$id)->count();
+        return response()->json($countLike);
     }
-
-    function disLike($id){
-        $likePost = Like::Where([['post_id',$id],['user_id',Auth::id()]]);
-        $likePost->delete();
-        return response()->json(['Delete successfully']);
-    }
-
     public function countLikeByPost($id)
     {
         $like = Like::where('post_id',$id)->get();
