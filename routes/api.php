@@ -50,6 +50,8 @@ Route::group(['middleware' => 'api'], function () {
         Route::get('/{id}/likePost', [PostController::class, 'likePost']);
         Route::delete('/{id}/disLike', [PostController::class, 'disLike']);
         Route::get('/{id}/countLike', [PostController::class, 'countLikeByPost']);
+        Route::post('/{id}/images', [PostController::class, 'imageUploadPost']);
+
     });
 });
 
