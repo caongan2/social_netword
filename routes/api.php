@@ -30,11 +30,14 @@ Route::group(['middleware' => 'api'], function () {
         Route::post('/login',[AuthController::class,'login']);
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::post('/change-password', [AuthController::class, 'changePassword'])->name('change.password');
+
         Route::prefix('users')->group(function (){
             Route::put('{id}/update-profile',[UserController::class,'update']);
             Route::get('{id}/user-profile', [AuthController::class, 'userProfile']);
         });
     });
+    Route::get('/user-profile',[AuthController::class,'userProfile']);
+    Route::get('/user-list',[UserController::class,'getAll']);
 
     Route::prefix('posts')->group(function (){
         Route::get('/{id}/getPostByUser', [PostController::class, 'getPostByUser']);
