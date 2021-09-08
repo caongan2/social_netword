@@ -77,8 +77,8 @@ class AuthController extends Controller
     public function changePassword(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'old_password' => 'required|min:6|max:8',
-            'new_password' => 'required|confirmed|min:6|max:8',
+            'old_password' => 'required|min:6|max:20',
+            'new_password' => 'required|confirmed|min:6|max:20',
         ]);
 
         if ($validator->fails()) {
@@ -92,7 +92,7 @@ class AuthController extends Controller
         );
 
         return response()->json([
-            'message' => 'User successfully registered',
+            'message' => 'Change password success',
             'user' => $user
         ], 201);
     }
@@ -101,9 +101,10 @@ class AuthController extends Controller
         return $this->createNewToken(auth()->refresh());
     }
 
-    public function userProfile()
+    public function userProfile($id)
     {
-        return response()->json(auth()->user());
+        $user = User::find($id);
+        return response()->json($user);
     }
 
     protected function createNewToken($token)
