@@ -40,7 +40,7 @@ Route::group(['middleware' => 'api'], function () {
     Route::get('/user-list',[UserController::class,'getAll']);
 
     Route::prefix('posts')->group(function (){
-        Route::get('/{id}/getPostByUser', [PostController::class, 'getPostByUser']);
+        Route::get('/getPostByUser', [PostController::class, 'search']);
         Route::get('/getAll', [PostController::class, 'index']);
         Route::post('/create', [PostController::class, 'create']);
         Route::put('/{id}/update', [PostController::class, 'update']);

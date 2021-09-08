@@ -87,8 +87,14 @@ class PostController extends Controller
 
     public function getPostByUser($id)
     {
-        $post = $this->postService->getPostByUser($id);
-        return response()->json($post);
+       $user = $this->postService->getPostByUser($id);
+        return response()->json($user);
+    }
+
+    public function search($name)
+    {
+        $user = User::with('posts')->where('name','like','%'.$name.'%')->get();
+        return response()->json($user);
     }
 
     public function showPost($id)
