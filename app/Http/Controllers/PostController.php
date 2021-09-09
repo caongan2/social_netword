@@ -93,12 +93,6 @@ class PostController extends Controller
         return response()->json($post);
     }
 
-    public function search($name)
-    {
-        $user = User::with('posts')->where('name','like','%'.$name.'%')->get();
-        return response()->json($user);
-    }
-
     public function showPost($id)
     {
         $post = Post::find($id);
