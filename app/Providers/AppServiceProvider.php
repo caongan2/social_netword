@@ -2,11 +2,15 @@
 
 namespace App\Providers;
 
+use App\Http\Repositories\CommentRepository;
+use App\Http\Repositories\Impl\CommentRepositoryImpl;
 use App\Http\Repositories\Impl\PostRepositoryImpl;
 use App\Http\Repositories\Impl\UserRepositoryImpl;
 use App\Http\Repositories\PostRepository;
 use App\Http\Repositories\UserRepository;
 
+use App\Http\Services\CommentService;
+use App\Http\Services\Impl\CommentServiceImpl;
 use App\Http\Services\Impl\UserServiceImpl;
 use App\Http\Services\UserService;
 
@@ -43,6 +47,16 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(
             UserService::class,
             UserServiceImpl::class
+        );
+
+        $this->app->singleton(
+            CommentService::class,
+            CommentServiceImpl::class
+        );
+
+        $this->app->singleton(
+            CommentRepository::class,
+            CommentRepositoryImpl::class
         );
     }
 

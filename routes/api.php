@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 
@@ -21,10 +22,6 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::group(['middleware'=>'api'],function () {
-    Route::get('/user-profile',[AuthController::class,'userProfile']);
-    Route::get('/user-list',[UserController::class,'getAll']);
-});
 
 Route::group(['middleware' => 'api'], function () {
 
@@ -34,11 +31,17 @@ Route::group(['middleware' => 'api'], function () {
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::post('/change-password', [AuthController::class, 'changePassword'])->name('change.password');
 
+<<<<<<< HEAD
         Route::get('/user-profile', [AuthController::class, 'userProfile']);
+=======
+         Route::get('/user-profile', [AuthController::class, 'userProfile']);
+>>>>>>> 99987f80b3dea077bb714dfd2d0fb4c50158becc
         Route::prefix('users')->group(function (){
             Route::put('{id}/update-profile',[UserController::class,'update']);
         });
     });
+    Route::get('/user-profile',[AuthController::class,'userProfile']);
+    Route::get('/user-list',[UserController::class,'getAll']);
 
     Route::prefix('posts')->group(function (){
         Route::get('/{id}/getPostByUser', [PostController::class, 'getPostByUser']);
@@ -52,6 +55,13 @@ Route::group(['middleware' => 'api'], function () {
         Route::get('/{id}/countLike', [PostController::class, 'countLikeByPost']);
         Route::post('/{id}/images', [PostController::class, 'imageUploadPost']);
 
+    });
+
+    Route::prefix('comment')->group(function (){
+        Route::get('commentByPost/{id}', [CommentController::class, 'index']);
+        Route::delete('delete/{id}', [CommentController::class, 'destroy']);
+        Route::post('create', [CommentController::class, 'comment']);
+        Route::post('update/{id}', [CommentController::class, 'update']);
     });
 });
 
