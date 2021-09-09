@@ -40,4 +40,11 @@ class UserController extends Controller
         return response()->json($dataUser['users'],$dataUser['statusCode']);
     }
 
+    public function findUser(Request $request)
+    {
+        $text = $request->name;
+        $user = User::where('name','like','%'.$text.'%')->get();
+        return response()->json([$user]);
+    }
+
 }

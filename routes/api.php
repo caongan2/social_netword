@@ -33,14 +33,14 @@ Route::group(['middleware' => 'api'], function () {
 
         Route::prefix('users')->group(function (){
             Route::put('{id}/update-profile',[UserController::class,'update']);
-            Route::get('{id}/user-profile', [AuthController::class, 'userProfile']);
         });
     });
-    Route::get('/user-profile',[AuthController::class,'userProfile']);
+    Route::get('/{id}/user-profile',[AuthController::class,'userProfile']);
     Route::get('/user-list',[UserController::class,'getAll']);
+    Route::get('/findUser',[UserController::class,'findUser']);
 
     Route::prefix('posts')->group(function (){
-        Route::get('/{id}/getPostByUser', [PostController::class, 'getPostByUser']);
+        Route::get('/getPostByUser/{id}', [PostController::class, 'getPostByUser']);
         Route::get('/getAll', [PostController::class, 'index']);
         Route::post('/create', [PostController::class, 'create']);
         Route::put('/{id}/update', [PostController::class, 'update']);

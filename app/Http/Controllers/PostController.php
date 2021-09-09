@@ -89,7 +89,7 @@ class PostController extends Controller
     {
         $post = DB::table('posts')->join('users','users.id','=','posts.userId')
             ->select('users.name','posts.content','posts.id')
-        ->where('userId',$id)->get();
+            ->where('userId',$id)->get();
         return response()->json($post);
     }
 
