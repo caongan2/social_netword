@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\Firebase\FriendController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 
@@ -33,6 +34,7 @@ Route::group(['middleware' => 'api'], function () {
 
         Route::prefix('users')->group(function (){
             Route::put('{id}/update-profile',[UserController::class,'update']);
+            Route::get('{id}/addFriend',[FriendController::class,'addFriend']);
         });
     });
     Route::get('/{id}/user-profile',[AuthController::class,'userProfile']);
