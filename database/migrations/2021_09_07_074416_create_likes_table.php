@@ -18,6 +18,7 @@ class CreateLikesTable extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('post_id')->nullable();
             $table->unsignedBigInteger('comment_id')->nullable();
+            $table->boolean('is_status');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

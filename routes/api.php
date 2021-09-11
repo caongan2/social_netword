@@ -32,19 +32,23 @@ Route::group(['middleware' => 'api'], function () {
         Route::post('/change-password', [AuthController::class, 'changePassword'])->name('change.password');
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         Route::get('/user-profile', [AuthController::class, 'userProfile']);
 =======
          Route::get('/user-profile', [AuthController::class, 'userProfile']);
 >>>>>>> 99987f80b3dea077bb714dfd2d0fb4c50158becc
+=======
+>>>>>>> 55053bffb9438218e91622bfb2f7cd52c295ab42
         Route::prefix('users')->group(function (){
             Route::put('{id}/update-profile',[UserController::class,'update']);
         });
     });
-    Route::get('/user-profile',[AuthController::class,'userProfile']);
+    Route::get('/{id}/user-profile',[AuthController::class,'userProfile']);
     Route::get('/user-list',[UserController::class,'getAll']);
+    Route::get('/findUser',[UserController::class,'findUser']);
 
     Route::prefix('posts')->group(function (){
-        Route::get('/{id}/getPostByUser', [PostController::class, 'getPostByUser']);
+        Route::get('/getPostByUser/{id}', [PostController::class, 'getPostByUser']);
         Route::get('/getAll', [PostController::class, 'index']);
         Route::post('/create', [PostController::class, 'create']);
         Route::put('/{id}/update', [PostController::class, 'update']);
