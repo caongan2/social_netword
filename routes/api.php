@@ -31,15 +31,11 @@ Route::group(['middleware' => 'api'], function () {
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::post('/change-password', [AuthController::class, 'changePassword'])->name('change.password');
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
         Route::get('/user-profile', [AuthController::class, 'userProfile']);
-=======
          Route::get('/user-profile', [AuthController::class, 'userProfile']);
->>>>>>> 99987f80b3dea077bb714dfd2d0fb4c50158becc
-=======
->>>>>>> 55053bffb9438218e91622bfb2f7cd52c295ab42
-        Route::prefix('users')->group(function (){
+
+         Route::prefix('users')->group(function (){
             Route::put('{id}/update-profile',[UserController::class,'update']);
         });
     });

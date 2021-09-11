@@ -116,5 +116,34 @@ class AuthController extends Controller
             'user' => auth()->user()
         ]);
     }
+    public function loginWithGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function loginWithGoogleCallBack()
+    {
+        try {
+            $user = Socialite::driver('google')->user();
+        } catch (\Exception $e) {
+            return redirect()->route('login');
+        }
+
+        $existingUser = User::where('email', $user->email)->first();
+
+        if ($existingUser) {
+            auth()->login($existingUser, true);
+        } else {
+            $newUser = new User();
+            $newUser->username = $user->email;
+            $newUser->password = Hash::make('password');
+            $newUser->email = $user->email;
+            $newUser->save();
+
+            auth()->login($newUser, true);
+        }
+
+        return redirect()->route('home');
+
 
 }
