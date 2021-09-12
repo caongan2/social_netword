@@ -8,13 +8,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 
 class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login','register']]);
+        $this->middleware('auth:api', ['except' => ['login','register','redirectToGoogle']]);
     }
 
     public function login(Request $request)
@@ -125,6 +126,18 @@ class AuthController extends Controller
     public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();
+    }
+
+    public function handleByGoogleCallback()
+    {
+        $getInfor = Socialite::driver('google')->stateless()->user();
+        $user = $this->createUser($getInfor, 'google');
+        auth()->login($user);
+        $token = JWTAuth::fromUser($user);
+        if (!$token) {
+            return response()->json(['message' => 'unauthorize']);
+        }
+        dd($token);
     }
 
 }

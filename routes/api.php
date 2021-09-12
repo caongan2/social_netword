@@ -65,8 +65,8 @@ Route::group(['middleware' => 'api'], function () {
         Route::get('like-comment/{id}', [CommentController::class, 'likeComment']);
     });
 
-    Route::get('/redirectToGoogle',[AuthController::class,'redirectToGoogle']);
+
 
 });
-
-Route::get('/callback',[UserController::class,'handleByGoogleCallback']);
+Route::get('/redirectToGoogle',[AuthController::class,'redirectToGoogle']);
+Route::get('/callback',[AuthController::class,'handleByGoogleCallback']);

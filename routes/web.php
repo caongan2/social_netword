@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,5 +17,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/login',[\App\Http\Controllers\UserController::class,'redirectToGoogle'])->name('login');
-Route::get('/home',[\App\Http\Controllers\UserController::class,'handleByGoogleCallback'])->name('home');
+Route::get('/login',[AuthController::class,'redirectToGoogle'])->name('login');
+Route::get('/home',[AuthController::class,'handleByGoogleCallback'])->name('home');

@@ -53,22 +53,7 @@ class UserController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function redirectToGoogle()
-    {
-        return Socialite::driver('google')->redirect();
-    }
 
-    public function handleByGoogleCallback()
-    {
-        $getInfor = Socialite::driver('google')->stateless()->user();
-        $user = $this->createUser($getInfor, 'google');
-        auth()->login($user);
-        $token = JWTAuth::fromUser($user);
-        if (!$token) {
-            return response()->json(['message' => 'unauthorize']);
-        }
-        dd($token);
-    }
 
     public function createUser($getInfor, $provider)
     {
