@@ -28,7 +28,8 @@ class User extends Authenticatable implements JWTSubject
         'address',
         'interest',
         'provider',
-        'provider_id'
+        'provider_id',
+        'image'
     ];
 
     /**
@@ -56,6 +57,10 @@ class User extends Authenticatable implements JWTSubject
 
     function like(){
         return $this->hasMany(Like::class);
+    }
+
+    function friend(){
+        return $this->hasMany(Friend::class,'user_id');
     }
 
     public function getJWTIdentifier()

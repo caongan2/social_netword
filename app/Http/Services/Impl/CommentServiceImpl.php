@@ -11,6 +11,7 @@ use App\Http\Services\CommentService;
 use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class CommentServiceImpl implements CommentService
@@ -34,14 +35,15 @@ class CommentServiceImpl implements CommentService
 
     public function findById($id)
     {
-        // TODO: Implement findById() method.
+        $comment = Comment::find($id);
+        return $comment;
     }
 
     public function getCommentByPost($id)
     {
         $comments = DB::table('comments')
             ->join('users', 'users.id', '=', 'comments.user_id')
-            ->select('users.name', 'comments.content', 'comments.id')
+            ->select('users.name', 'comments.content', 'comments.id', 'comments.created_at')
             ->where('post_id', $id)
             ->orderByDesc('id')
             ->get();
