@@ -60,4 +60,5 @@ class FriendController extends Controller
         return response()->json($friend);
         
     }
+
 }
