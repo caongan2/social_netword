@@ -35,14 +35,8 @@ class FriendController extends Controller
         return response()->json($friends);
     }
 
-    public function updateFriend($id)
+    public function addFriend($id)
     {
-
-        $user = Friend::where([['friend_id',$id],['user_id',Auth::id()]])->first();
-        if ($user) {
-            $user->delete();
-            return response()->json('Delete friend');
-        } else {
             $friend = new Friend();
             $friend->user_id = Auth::id();
             $friend->friend_id = $id;
@@ -50,11 +44,17 @@ class FriendController extends Controller
             return response()->json($friend);
 
     }
+
+    public function deleteRequest($id)
+    {
+        $user = Friend::where([['friend_id',$id],['user_id',Auth::id()]])->first();
+        $user->delete();
+        return response()->json('Delete friend');
     }
 
     public function acceptFriend($id)
     {
-        $friend = Friend::find($id);
+        $friend = Friend::where([['friend_id',$id],['user_id',Auth::id()]])->first();
         $friend->is_accept = true;
         $friend->save();
         return response()->json($friend);

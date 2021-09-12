@@ -36,7 +36,8 @@ Route::group(['middleware' => 'api'], function () {
             Route::put('{id}/update-profile',[UserController::class,'update']);
             Route::get('{id}/listFriend',[FriendController::class,'listFriend']);
             Route::get('{id}/requestFriend',[FriendController::class,'requestFriend']);
-            Route::get('{id}/updateFriend',[FriendController::class,'updateFriend']);
+            Route::get('{id}/addFriend',[FriendController::class,'addFriend']);
+            Route::delete('{id}/deleteRequest',[FriendController::class,'deleteRequest']);
             Route::get('{id}/acceptFriend',[FriendController::class,'acceptFriend']);
         });
     });
