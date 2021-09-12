@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Services\CommentService;
 use App\Models\Comment;
+use App\Models\Like;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -56,9 +58,9 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function showComment($id)
     {
-        //
+        return $this->commentService->findById($id);
     }
 
     /**
@@ -88,5 +90,21 @@ class CommentController extends Controller
     {
         $this->commentService->destroyComment($id);
         return response()->json(['message' => 'delete success']);
+    }
+
+    public function likeComment($id)
+    {
+        $likeComment = Like::where('comment_id', $id)->where('user_id', Auth::id())->first();
+        if ($likeComment) {
+            $likeComment->delete();
+        } else {
+            $like = new Like();
+            $like->user_id = Auth::id();
+            $like->comment_id = $id;
+            $like->is_status = true;
+            $like->save();
+        }
+        $countLike = Like::where('comment_id',$id)->count();
+        return response()->json($countLike);
     }
 }
