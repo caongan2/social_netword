@@ -34,7 +34,7 @@ class PostController extends Controller
     {
         $posts = DB::table('posts')
             ->join('users', 'users.id', '=', 'posts.userId')
-            ->select('users.name', 'posts.content', 'posts.id','posts.is_public','posts.created_at')
+            ->select('users.name', 'posts.content', 'posts.id','posts.is_public','posts.created_at', 'posts.image')
             ->where('is_public',true)
             ->orderByDesc('posts.id')
             ->get();
@@ -88,7 +88,7 @@ class PostController extends Controller
     public function getPostByUser($id)
     {
         $post = DB::table('posts')->join('users','users.id','=','posts.userId')
-            ->select('users.name','posts.content','posts.id')
+            ->select('users.name','posts.content','posts.id', 'posts.image')
             ->where('userId',$id)->get();
         return response()->json($post);
     }
