@@ -54,8 +54,10 @@ Route::group(['middleware' => 'api'], function () {
     Route::prefix('comment')->group(function (){
         Route::get('commentByPost/{id}', [CommentController::class, 'index']);
         Route::delete('delete/{id}', [CommentController::class, 'destroy']);
+        Route::get('show-comment/{id}', [CommentController::class, 'showComment']);
         Route::post('create', [CommentController::class, 'comment']);
         Route::post('update/{id}', [CommentController::class, 'update']);
+        Route::get('like-comment/{id}', [CommentController::class, 'likeComment']);
     });
 });
 
