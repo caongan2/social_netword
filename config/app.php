@@ -164,7 +164,7 @@ return [
 
         //jwt
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
-        
+
 
         /*
          * Package Service Providers...
@@ -178,6 +178,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Kreait\Laravel\Firebase\ServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class
 
     ],
 
@@ -236,6 +238,7 @@ return [
         // jwt
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class
 
     ],
 

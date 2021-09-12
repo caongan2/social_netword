@@ -5,17 +5,15 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-
-
-
+use Laravel\Socialite\Facades\Socialite;
 
 
 class AuthController extends Controller
 {
     public function __construct()
     {
-
         $this->middleware('auth:api', ['except' => ['login','register']]);
     }
 
@@ -107,7 +105,7 @@ class AuthController extends Controller
         return response()->json($user);
     }
 
-    protected function createNewToken($token)
+    public function createNewToken($token)
     {
         return response()->json([
             'access_token' => $token,
@@ -115,6 +113,18 @@ class AuthController extends Controller
             'expires_in' => auth()->factory()->getTTL() * 60,
             'user' => auth()->user()
         ]);
+    }
+
+
+
+    /**
+     * Redirect the user to the Google authentication page.
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
     }
 
 }
