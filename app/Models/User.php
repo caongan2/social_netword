@@ -27,6 +27,8 @@ class User extends Authenticatable implements JWTSubject
         'birth_date',
         'address',
         'interest',
+        'provider',
+        'provider_id',
         'image'
     ];
 
@@ -37,7 +39,7 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $hidden = [
         'password',
-        'remember_token',
+        'remember_token'
     ];
 
     /**
