@@ -43,7 +43,7 @@ class CommentServiceImpl implements CommentService
     {
         $comments = DB::table('comments')
             ->join('users', 'users.id', '=', 'comments.user_id')
-            ->select('users.name', 'comments.content', 'comments.id', 'comments.created_at')
+            ->select('users.name','users.image', 'comments.content', 'comments.id', 'comments.created_at')
             ->where('post_id', $id)
             ->orderByDesc('id')
             ->get();
