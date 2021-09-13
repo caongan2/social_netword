@@ -4,18 +4,18 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use http\Env\Response;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\JWTAuth;
 
 
 class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login','register','redirectToGoogle']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register','loginGoogle']]);
     }
 
     public function login(Request $request)
@@ -32,7 +32,7 @@ class AuthController extends Controller
             return response()->json([
                 'message' => 'Email is not correct.',
                 'error' => 'Unauthorized'
-            ],422);
+            ], 422);
         }
         return $this->createNewToken($token);
     }
@@ -40,10 +40,10 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|between:2,100',
+            'name' => 'required|between:5,100',
             'email' => 'required|email|max:100|unique:users',
-            'password' => 'required|confirmed|min:6|max:8',
-            'phone' => 'required|regex:/^(0+[0-9]{9})$/|unique:users',
+            'password' => 'required|confirmed|min:6|max:20',
+            'phone' => 'regex:/^(0+[0-9]{9})$/|unique:users'
         ]);
 
         if ($validator->fails()) {
@@ -64,7 +64,6 @@ class AuthController extends Controller
             'user' => $user
         ], 201);
     }
-
 
 
     public function logout()
@@ -95,6 +94,7 @@ class AuthController extends Controller
             'user' => $user
         ], 201);
     }
+
     public function refresh()
     {
         return $this->createNewToken(auth()->refresh());
@@ -116,28 +116,36 @@ class AuthController extends Controller
         ]);
     }
 
-
-
-    /**
-     * Redirect the user to the Google authentication page.
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function redirectToGoogle()
+    public function loginGoogle(Request $request)
     {
-        return Socialite::driver('google')->redirect();
-    }
+        $validator = Validator::make($request->all(),[
+            'access_token' => 'required',
+        ]);
 
-    public function handleByGoogleCallback()
-    {
-        $getInfor = Socialite::driver('google')->stateless()->user();
-        $user = $this->createUser($getInfor, 'google');
-        auth()->login($user);
-        $token = JWTAuth::fromUser($user);
-        if (!$token) {
-            return response()->json(['message' => 'unauthorize']);
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->toJson(), 422);
         }
-        dd($token);
+        $userSocial = Socialite::driver('google')->userFromToken($request->access_token);
+        $user = $this->createUserGoogle($userSocial,'google');
+        $token = auth('api')->tokenById($user->id);
+        $data = [
+            'user' => $user,
+            'access_token' => $token
+        ];
+        return response()->json($data);
     }
 
+    public function createUserGoogle($userGoogle, $provider)
+    {
+        $user = User::where('provider_id', $userGoogle->id)->first();
+        if (!$user) {
+            $user = User::create([
+                'name' => $userGoogle->name,
+                'email' => $userGoogle->email,
+                'provider' => $provider,
+                'provider_id' => $userGoogle->id
+            ]);
+        }
+        return $user;
+    }
 }
