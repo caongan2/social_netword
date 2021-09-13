@@ -36,8 +36,11 @@ Route::group(['middleware' => 'api'], function () {
             Route::put('{id}/update-profile',[UserController::class,'update']);
             Route::get('{id}/listFriend',[FriendController::class,'listFriend']);
             Route::get('{id}/requestFriend',[FriendController::class,'requestFriend']);
-            Route::get('{id}/updateFriend',[FriendController::class,'updateFriend']);
+            Route::get('{id}/addFriend',[FriendController::class,'addFriend']);
+            Route::delete('{id}/deleteRequest',[FriendController::class,'deleteRequest']);
             Route::get('{id}/acceptFriend',[FriendController::class,'acceptFriend']);
+            Route::get('listUsers',[FriendController::class,'listUsers']);
+            Route::get('{id}/listFriendByUser',[FriendController::class,'listFriendByUser']);
         });
     });
     Route::get('/{id}/user-profile',[AuthController::class,'userProfile']);
@@ -54,6 +57,7 @@ Route::group(['middleware' => 'api'], function () {
         Route::get('/{id}/likePost', [PostController::class, 'likePost']);
         Route::delete('/{id}/disLike', [PostController::class, 'disLike']);
         Route::get('/{id}/countLike', [PostController::class, 'countLikeByPost']);
+        Route::get('/{id}/getRelationShip', [PostController::class, 'getRelationShip']);
     });
 
     Route::prefix('comment')->group(function (){
