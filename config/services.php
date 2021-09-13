@@ -31,9 +31,9 @@ return [
     ],
 
     'google' => [
-        'client_id' => '822527485321-1h6gkpream2r4n5bufak0fk73t9oco45.apps.googleusercontent.com',
-        'client_secret' => 'vzXsYkwwHtjxGa8VnwLgqLQZ',
-        'redirect' => "http://localhost:8000/home",
+        'client_id' => '822527485321-g90100h11s9pk0v6g2ehabfp5ev8lqjr.apps.googleusercontent.com',
+        'client_secret' => 'y4o4n7RvuBlo3uQ9et12LaXU',
+        'redirect' => "http://localhost:4200/admin/home/posts",
     ],
 
 ];

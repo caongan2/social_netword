@@ -39,6 +39,7 @@ Route::group(['middleware' => 'api'], function () {
             Route::get('{id}/updateFriend',[FriendController::class,'updateFriend']);
             Route::get('{id}/acceptFriend',[FriendController::class,'acceptFriend']);
         });
+        Route::post('loginGoogle',[AuthController::class,'loginGoogle']);
     });
     Route::get('/{id}/user-profile',[AuthController::class,'userProfile']);
     Route::get('/user-list',[UserController::class,'getAll']);
@@ -65,8 +66,5 @@ Route::group(['middleware' => 'api'], function () {
         Route::get('like-comment/{id}', [CommentController::class, 'likeComment']);
     });
 
-
-
 });
-Route::get('/redirectToGoogle',[AuthController::class,'redirectToGoogle']);
-Route::get('/callback',[AuthController::class,'handleByGoogleCallback']);
+
