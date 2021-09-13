@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
@@ -127,18 +128,22 @@ class AuthController extends Controller
         $userSocial = Socialite::driver('google')->userFromToken($request->access_token);
         $user = $this->createUserGoogle($userSocial,'google');
         $token = auth('api')->tokenById($user->id);
-        return $this->createNewToken($token);
+        $data = [
+            'user' => $user,
+            'access_token' => $token
+        ];
+        return response()->json($data);
     }
 
-    public function createUserGoogle($getInfor, $provider)
+    public function createUserGoogle($userGoogle, $provider)
     {
-        $user = User::where('provider_id', $getInfor->id)->first();
+        $user = User::where('provider_id', $userGoogle->id)->first();
         if (!$user) {
             $user = User::create([
-                'name' => $getInfor->name,
-                'email' => $getInfor->email,
+                'name' => $userGoogle->name,
+                'email' => $userGoogle->email,
                 'provider' => $provider,
-                'provider_id' => $getInfor->id
+                'provider_id' => $userGoogle->id
             ]);
         }
         return $user;
