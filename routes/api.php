@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +32,6 @@ Route::group(['middleware' => 'api'], function () {
         Route::post('/login',[AuthController::class,'login']);
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::post('/change-password', [AuthController::class, 'changePassword'])->name('change.password');
-
         Route::prefix('users')->group(function (){
             Route::put('{id}/update-profile',[UserController::class,'update']);
             Route::get('{id}/listFriend',[FriendController::class,'listFriend']);
@@ -68,5 +68,9 @@ Route::group(['middleware' => 'api'], function () {
         Route::post('update/{id}', [CommentController::class, 'update']);
         Route::get('like-comment/{id}', [CommentController::class, 'likeComment']);
     });
-});
 
+
+
+});
+Route::get('/redirectToGoogle',[AuthController::class,'redirectToGoogle']);
+Route::get('/callback',[AuthController::class,'handleByGoogleCallback']);

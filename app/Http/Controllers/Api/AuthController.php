@@ -5,18 +5,17 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-
-
-
+use Laravel\Socialite\Facades\Socialite;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 
 class AuthController extends Controller
 {
     public function __construct()
     {
-
-        $this->middleware('auth:api', ['except' => ['login','register']]);
+        $this->middleware('auth:api', ['except' => ['login','register','redirectToGoogle']]);
     }
 
     public function login(Request $request)
@@ -107,7 +106,7 @@ class AuthController extends Controller
         return response()->json($user);
     }
 
-    protected function createNewToken($token)
+    public function createNewToken($token)
     {
         return response()->json([
             'access_token' => $token,
@@ -115,6 +114,30 @@ class AuthController extends Controller
             'expires_in' => auth()->factory()->getTTL() * 60,
             'user' => auth()->user()
         ]);
+    }
+
+
+
+    /**
+     * Redirect the user to the Google authentication page.
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleByGoogleCallback()
+    {
+        $getInfor = Socialite::driver('google')->stateless()->user();
+        $user = $this->createUser($getInfor, 'google');
+        auth()->login($user);
+        $token = JWTAuth::fromUser($user);
+        if (!$token) {
+            return response()->json(['message' => 'unauthorize']);
+        }
+        dd($token);
     }
 
 }
