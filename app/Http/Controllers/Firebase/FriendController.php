@@ -29,7 +29,7 @@ class FriendController extends Controller
     {
         $friends = DB::table('friends')
             ->join('users', 'users.id', '=', 'friends.friend_id')
-            ->select('friends.friend_name', 'friends.user_id', 'friends.friend_id')
+            ->select('friends.friend_name', 'users.image', 'friends.user_id', 'friends.friend_id')
             ->where([['friends.friend_id',$id],['friends.is_accept',true]])
             ->get();
         return response()->json($friends);
@@ -81,7 +81,7 @@ class FriendController extends Controller
             'is_friend'=>$is_friend
         ];
         return response()->json($data);
-        
+
     }
 
     public function listUsers()
@@ -94,7 +94,7 @@ class FriendController extends Controller
             array_push($array,$friend->friend_id);
         }
         $user = DB::table('users')
-            ->select('users.id','users.name')
+            ->select('users.id','users.name', 'users.image')
             ->whereNotIn('id',$array)
             ->limit(10)
             ->get();
