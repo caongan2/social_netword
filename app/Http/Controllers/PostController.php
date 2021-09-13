@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Services\PostService;
 use App\Models\Comment;
+use App\Models\Friend;
 use App\Models\Like;
 use App\Models\Post;
 use App\Models\User;
@@ -34,7 +35,7 @@ class PostController extends Controller
     {
         $posts = DB::table('posts')
             ->join('users', 'users.id', '=', 'posts.userId')
-            ->select('users.name', 'posts.content', 'posts.id','posts.is_public','posts.created_at', 'posts.image')
+            ->select('users.name','users.image', 'posts.content', 'posts.userId','posts.id','posts.is_public','posts.created_at', 'posts.image')
             ->where('is_public',true)
             ->orderByDesc('posts.id')
             ->get();
@@ -121,5 +122,13 @@ class PostController extends Controller
         return response()->json($like);
     }
 
+    public function getRelationShip($id)
+    {
+        $friend = DB::table('friends')
+                    ->select('is_accept')
+                    ->where('friend_id',$id)
+                    ->get();
+        return response()->json($friend);
+    }
 
 }
