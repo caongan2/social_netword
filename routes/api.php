@@ -44,9 +44,12 @@ Route::group(['middleware' => 'api'], function () {
         });
         Route::post('loginGoogle',[AuthController::class,'loginGoogle']);
     });
+
+
     Route::get('/{id}/user-profile',[AuthController::class,'userProfile']);
     Route::get('/user-list',[UserController::class,'getAll']);
     Route::get('/findUser',[UserController::class,'findUser']);
+
 
     Route::prefix('posts')->group(function (){
         Route::get('/getPostByUser/{id}', [PostController::class, 'getPostByUser']);
@@ -60,6 +63,7 @@ Route::group(['middleware' => 'api'], function () {
         Route::get('/{id}/countLike', [PostController::class, 'countLikeByPost']);
         Route::get('/{id}/getRelationShip', [PostController::class, 'getRelationShip']);
     });
+
 
     Route::prefix('comment')->group(function (){
         Route::get('commentByPost/{id}', [CommentController::class, 'index']);
