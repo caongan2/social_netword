@@ -33,15 +33,8 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = DB::table('posts')
-            ->join('users', 'users.id', '=', 'posts.userId')
-            ->select('users.name','users.image', 'posts.content', 'posts.userId','posts.id','posts.is_public','posts.created_at', 'posts.image')
-            ->where('is_public',true)
-            ->orderByDesc('posts.id')
-            ->get();
+        $posts = $this->postService->getAll();
         return response()->json($posts);
-//        $posts = Post::with('user','likes','comments')->where('is_public',true)->orderByDesc('id')->get();
-//        return response()->json($posts);
     }
 
     public function create(Request $request)
@@ -80,24 +73,21 @@ class PostController extends Controller
         return response()->json($data);
     }
 
+
     public function delete($id)
     {
-        $post = $this->postService->destroy($id);
-        return response()->json($post);
+        $this->postService->destroy($id);
+        return response()->json('Delete Success');
     }
 
     public function getPostByUser($id)
     {
-        $post = DB::table('posts')->join('users','users.id','=','posts.userId')
-            ->select('users.name','posts.content','posts.id', 'posts.image')
-            ->where('userId',$id)->get();
-        return response()->json($post);
+        return $this->postService->getPostByUser($id);
     }
 
     public function showPost($id)
     {
-        $post = Post::find($id);
-        return response()->json($post);
+        return $this->postService->findById($id);
     }
 
     public function likePost($id)

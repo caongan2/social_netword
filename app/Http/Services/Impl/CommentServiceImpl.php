@@ -9,9 +9,12 @@ use App\Http\Repositories\PostRepository;
 use App\Http\Repositories\UserRepository;
 use App\Http\Services\CommentService;
 use App\Models\Comment;
+use App\Models\Like;
 use App\Models\Post;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CommentServiceImpl implements CommentService
@@ -35,7 +38,7 @@ class CommentServiceImpl implements CommentService
 
     public function findById($id)
     {
-        $comment = Comment::find($id);
+        $comment = $this->commentRepository->findById($id);
         return $comment;
     }
 
@@ -52,13 +55,30 @@ class CommentServiceImpl implements CommentService
 
     public function destroyComment($id)
     {
-        return Comment::destroy($id);
+        $comment = $this->commentRepository->findById($id);
+        return $this->commentRepository->destroy($comment);
     }
 
     public function update($request, $id)
     {
-        $comment = Comment::find($id);
+        $comment = $this->commentRepository->findById($id);
         return $this->commentRepository->update($request, $comment);
+    }
+
+    public function likeComment($id)
+    {
+        $likeComment = Like::where('comment_id', $id)->where('user_id', Auth::id())->first();
+        if ($likeComment) {
+            $likeComment->delete();
+        } else {
+            $like = new Like();
+            $like->user_id = Auth::id();
+            $like->comment_id = $id;
+            $like->is_status = true;
+            $like->save();
+        }
+        $countLike = Like::where('comment_id',$id)->count();
+        return response()->json($countLike);
     }
 
 }

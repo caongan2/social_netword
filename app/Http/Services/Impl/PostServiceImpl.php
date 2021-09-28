@@ -10,6 +10,7 @@ use App\Http\Services\PostService;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PostServiceImpl implements PostService
 {
@@ -24,12 +25,21 @@ class PostServiceImpl implements PostService
 
     public function getAll()
     {
-        return $this->postRepository->getAll();
+        $posts = DB::table('posts')
+            ->join('users', 'users.id', '=', 'posts.userId')
+            ->select('users.name','users.image', 'posts.content', 'posts.userId','posts.id','posts.is_public','posts.created_at', 'posts.image')
+            ->where('is_public',true)
+            ->orderByDesc('posts.id')
+            ->get();
+        return $posts;
     }
 
     public function destroy($id)
     {
-        return Post::destroy($id);
+        $post = $this->postRepository->findById($id);
+        $post->delete();
+        return response()->json(['message' => 'Success']);
+//        return $this->postRepository->destroy($id);
 
     }
 
@@ -47,7 +57,17 @@ class PostServiceImpl implements PostService
     public function getPostByUser($id)
     {
         $user = $this->userRepository->findById($id);
-        $post = Post::where('userId',$user->id)->get();
+        $post = DB::table('posts')->join('users','users.id','=','posts.userId')
+            ->select('users.name','posts.content','posts.id', 'posts.image')
+            ->where('userId',$id)
+            ->orderByDesc('posts.id')
+            ->get();
+//        $post = Post::where('userId',$user->id)->get();
         return $post;
+    }
+
+    public function findById($id)
+    {
+        return $this->postRepository->findById($id);
     }
 }
