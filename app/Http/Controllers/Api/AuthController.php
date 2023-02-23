@@ -29,10 +29,18 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 422);
         }
         if (!$token = auth()->attempt($validator->validated())) {
+
+            $user = User::where('email', $request->email)->first();
+            $msg = "";
+            if ($user) {
+                $msg = "Sai mat khau";
+            } else {
+                $msg = "Tai khoan ko ton tai";
+            }
             return response()->json([
-                'message' => 'Email is not correct.',
+                'message' => $msg,
                 'error' => 'Unauthorized'
-            ], 422);
+            ]);
         }
         return $this->createNewToken($token);
     }

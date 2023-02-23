@@ -23,7 +23,7 @@ use Laravel\Socialite\Facades\Socialite;
 */
 
 
-
+Route::get("count", [PostController::class, 'countData']);
 
 Route::group(['middleware' => 'api'], function () {
 

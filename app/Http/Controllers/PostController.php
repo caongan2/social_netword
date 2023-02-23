@@ -56,6 +56,19 @@ class PostController extends Controller
 
     }
 
+    public function countData()
+    {
+        $users = User::all()->count();
+        $posts = Post::all()->count();
+        $user_onl = $users * 0.7;
+        
+        return response()->json([
+            'user' => $users,
+            'post' => $posts,
+            'online' => $user_onl
+        ]);
+    }
+
     public function update(Request $request,$id)
     {
         $validator = Validator::make($request->all(),[

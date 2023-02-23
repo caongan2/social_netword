@@ -29,6 +29,7 @@ class PostServiceImpl implements PostService
             ->join('users', 'users.id', '=', 'posts.userId')
             ->select('users.name','users.image', 'posts.content', 'posts.userId','posts.id','posts.is_public','posts.created_at', 'posts.image')
             ->where('is_public',true)
+            ->limit(10)
             ->orderByDesc('posts.id')
             ->get();
         return $posts;
