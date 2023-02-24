@@ -22,14 +22,14 @@ use Laravel\Socialite\Facades\Socialite;
 |
 */
 
-
+Route::post('auth/login',[AuthController::class,'login']);
 Route::get("count", [PostController::class, 'countData']);
 
 Route::group(['middleware' => 'api'], function () {
 
     Route::prefix('auth')->group(function (){
         Route::post('/register', [AuthController::class, 'register']);
-        Route::post('/login',[AuthController::class,'login']);
+        // Route::post('/login',[AuthController::class,'login']);
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::post('/change-password', [AuthController::class, 'changePassword'])->name('change.password');
         Route::prefix('users')->group(function (){

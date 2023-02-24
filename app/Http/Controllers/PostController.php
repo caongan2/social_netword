@@ -28,6 +28,7 @@ class PostController extends Controller
 
     public function __construct(PostService $service)
     {
+        $this->middleware("auth:api");
         $this->postService = $service;
     }
 
