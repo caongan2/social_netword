@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
 use App\Http\Controllers\Api\AuthController;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Http\Resources\UserCollection;
 
 class UserController extends Controller
 {
@@ -26,7 +27,7 @@ class UserController extends Controller
     public function getAll()
     {
         $users = $this->userService->getAll();
-        return $users;
+        return response()->json(new UserCollection($users));
     }
 
     public function store(Request $request)

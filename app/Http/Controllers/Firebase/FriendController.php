@@ -13,17 +13,6 @@ use Kreait\Firebase\Database;
 
 class FriendController extends Controller
 {
-//    public function listFriend($id)
-//    {
-//        $friends = DB::table('friends')
-//                ->join('users','users.id','=','friends.friend_id')
-//                ->select('friends.friend_name','users.name','friends.user_id','friends.friend_id','friends.is_accept')
-//                ->where([['friends.user_id',$id],['is_accept',true]])
-//                ->orWhere([['friends.friend_id',$id],['is_accept',true]])
-//                ->get();
-//
-//        return response()->json($friends);
-//    }
 
     public function listFriendByUser($id)
     {
